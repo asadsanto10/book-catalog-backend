@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { authRoutes } from '../modules/auth/auth.route';
 import { bookRoutes } from '../modules/book/book.route';
+import { reviewRoutes } from '../modules/review/review.route';
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.get('/health', (_req, res) => {
 // router.use(userRoutes);
 router.use('/auth', authRoutes);
 router.use('/book', bookRoutes);
+router.use('/review', reviewRoutes);
 
 // not found route
 router.use((req: Request, res: Response, next: NextFunction) => {
