@@ -3,20 +3,21 @@ import { validateRequest } from '../../middlewares/validateRequest/validateReque
 
 import auth from '../../middlewares/auth/auth.middleware';
 
-import { createBook, getAllBook, getBookById, updateBookId } from './book.controller';
+import {
+	createBook,
+	deleteBookyId,
+	getAllBook,
+	getBookById,
+	updateBookId,
+} from './book.controller';
 import { bookValidation } from './book.validation';
 
 const router = express.Router();
 const checkAuth = auth as RequestHandler;
-router.get('/all-book', getAllBook);
+router.post('/', checkAuth, validateRequest(bookValidation.createBookZodSchema), createBook);
+
 router.get('/:bookId', getBookById);
 
-router.post(
-	'/create-book',
-	checkAuth,
-	validateRequest(bookValidation.createBookZodSchema),
-	createBook
-);
 router.patch(
 	'/:bookId',
 	checkAuth,
@@ -24,4 +25,7 @@ router.patch(
 	updateBookId
 );
 
+router.delete('/:bookId', checkAuth, deleteBookyId);
+
+router.get('/', getAllBook);
 export const bookRoutes = router;

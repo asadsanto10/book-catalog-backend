@@ -38,4 +38,14 @@ const updateBookId = async (
 	return result;
 };
 
-export const bookService = { createBook, getAllBook, getBookById, updateBookId };
+const deleteBookyId = async (BookId: string, userId: string): Promise<IBook | null> => {
+	const isExistUserBook = await Book.findOne({ _id: BookId, userId });
+
+	if (!isExistUserBook) {
+		throw new ApiError(httpStatus.NOT_FOUND, 'Book not found !');
+	}
+	const result = await Book.findByIdAndDelete(BookId);
+	return result;
+};
+
+export const bookService = { createBook, getAllBook, getBookById, updateBookId, deleteBookyId };

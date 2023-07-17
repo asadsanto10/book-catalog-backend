@@ -69,3 +69,20 @@ export const updateBookId: RequestHandler = async (req, res, next): Promise<void
 		next(error);
 	}
 };
+
+export const deleteBookyId: RequestHandler = async (req, res, next): Promise<void> => {
+	try {
+		const { bookId } = req.params;
+		const { userId } = req.user;
+
+		const result = await bookService.deleteBookyId(bookId, userId);
+		sendResponse<IBook>(res, {
+			statusCode: httpStatus.OK,
+			status: true,
+			message: 'Book deleted successfully',
+			data: result,
+		});
+	} catch (error) {
+		next(error);
+	}
+};
