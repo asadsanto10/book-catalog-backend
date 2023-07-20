@@ -13,7 +13,7 @@ const createBook = async (userId: string, bookData: IBook): Promise<IBook | null
 };
 
 const getAllBook = async (filter: IBookFilter): Promise<IBook[] | null> => {
-	const { publicationDate, searchTerm } = filter;
+	const { publicationDate, genre, searchTerm } = filter;
 
 	const query = [];
 	if (searchTerm) {
@@ -35,8 +35,13 @@ const getAllBook = async (filter: IBookFilter): Promise<IBook[] | null> => {
 		});
 	}
 
-	const queryCondition = query.length > 0 ? { $and: query } : {};
+	if (genre) {
+		query.push({
+			genre,
+		});
+	}
 
+	const queryCondition = query.length > 0 ? { $and: query } : {};
 	const result = await Book.find(queryCondition);
 	return result;
 };
