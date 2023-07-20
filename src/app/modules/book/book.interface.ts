@@ -9,4 +9,9 @@ export interface IBook {
 	publicationDate: Date;
 }
 
+export interface IBookFilter {
+	searchTerm?: string;
+	publicationDate?: string;
+}
+
 export type IBookModel = Model<IBook, Record<string, unknown>>;

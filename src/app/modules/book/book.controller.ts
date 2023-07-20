@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { RequestHandler } from 'express';
 import httpStatus from 'http-status';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { IBook } from './book.interface';
+import { IBook, IBookFilter } from './book.interface';
 import { bookService } from './book.service';
+import { bookFilterType } from './book.variable';
 
 export const createBook: RequestHandler = async (req, res, next): Promise<void> => {
 	try {
@@ -23,7 +25,9 @@ export const createBook: RequestHandler = async (req, res, next): Promise<void> 
 
 export const getAllBook: RequestHandler = async (req, res, next): Promise<void> => {
 	try {
-		const result = await bookService.getAllBook();
+		const filter: IBookFilter = pick(req.query, bookFilterType);
+
+		const result = await bookService.getAllBook(filter);
 
 		sendResponse<IBook[]>(res, {
 			statusCode: httpStatus.OK,
